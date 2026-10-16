@@ -188,7 +188,7 @@ def validate_catalog(root_dir: Path) -> list:
 
             parsed = urllib.parse.urlparse(link)
             file_path_part = urllib.parse.unquote(parsed.path)
-            anchor_part = parsed.fragment
+            anchor_part = urllib.parse.unquote(parsed.fragment)
 
             target_path = path
             if file_path_part:

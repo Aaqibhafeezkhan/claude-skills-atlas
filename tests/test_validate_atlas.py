@@ -25,7 +25,7 @@ class TestValidateAtlas(unittest.TestCase):
             "# Doc 1\n\nLink to [doc2](doc2.md#section-2) and [itself](#doc-1).",
             encoding="utf-8",
         )
-        (self.root / "doc2.md").write_text("# Doc 2\n\n## Section 2", encoding="utf-8")
+        (self.root / "doc2.md").write_text("# Doc 2\n\n## Café", encoding="utf-8")
         self.assertEqual(validate_catalog(self.root), [])
 
     def test_missing_file(self):
@@ -40,6 +40,13 @@ class TestValidateAtlas(unittest.TestCase):
         (self.root / "doc2.md").write_text("# Doc 2", encoding="utf-8")
         errors = validate_catalog(self.root)
         self.assertTrue(any("Missing anchor" in e for e in errors))
+
+    def test_percent_encoded_anchor(self):
+        (self.root / "doc1.md").write_text(
+            "[valid](doc2.md#caf%C3%A9)", encoding="utf-8"
+        )
+        (self.root / "doc2.md").write_text("## Café", encoding="utf-8")
+        self.assertEqual(validate_catalog(self.root), [])
 
     def test_skill_required_metadata_and_sections(self):
         skill = self.root / "skills" / "example"
