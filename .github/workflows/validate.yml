@@ -1,20 +1,79 @@
-name: Validate Atlas
+name: Atlas CI
 
 on:
   push:
-    paths: ["skills/**","prompts/**","workflows/**","agents/**","templates/**","scripts/**","CATALOG.md","tests/**","docs/**","CONTRIBUTING.md","README.md"]
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - "prompts/**"
+      - "workflows/**"
+      - "agents/**"
+      - "templates/**"
+      - "scripts/**"
+      - "tests/**"
+      - "docs/**"
+      - "plugins/**"
+      - "CATALOG.md"
+      - "CONTRIBUTING.md"
+      - "README.md"
+      - ".github/workflows/validate.yml"
   pull_request:
-    paths: ["skills/**","prompts/**","workflows/**","agents/**","templates/**","scripts/**","CATALOG.md","tests/**"]
+    paths:
+      - "skills/**"
+      - "prompts/**"
+      - "workflows/**"
+      - "agents/**"
+      - "templates/**"
+      - "scripts/**"
+      - "tests/**"
+      - "docs/**"
+      - "plugins/**"
+      - "CATALOG.md"
+      - "CONTRIBUTING.md"
+      - "README.md"
+      - ".github/workflows/validate.yml"
+  workflow_dispatch:
+
+# CI only reads repository contents. Never grant write permissions to PR code.
+permissions:
+  contents: read
+
+concurrency:
+  group: atlas-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:
+    name: Validate (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out source
+        uses: actions/checkout@v4
         with:
-          python-version: "3.x"
-      - name: Validate resources and catalog
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Check Python syntax
+        run: python -m compileall -q scripts tests
+
+      - name: Validate Atlas resources
         run: python scripts/validate_atlas.py
-      - name: Run tests
-        run: python -m unittest discover tests
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
