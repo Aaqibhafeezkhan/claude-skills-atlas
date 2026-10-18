@@ -86,5 +86,6 @@ Before opening your PR:
 
 ## Related
 
+- [Guide to Maintainable Skill Tests](maintainable-skill-tests.md): design robust positive, negative, boundary, and adversarial cases without overfitting to one response.
 - [CONTRIBUTING.md](../CONTRIBUTING.md): contribution rules, including the testing section.
 - [Skill Quality Audit prompt](../prompts/claude-code/skill-quality-audit.md): a prompt for reviewing a skill's clarity and safety before you test it.
