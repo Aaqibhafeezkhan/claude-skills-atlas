@@ -35,6 +35,7 @@ Generated from repository resources. Do not edit manually.
 - [Evidence Comparison](skills/research/evidence-comparison/SKILL.md)
 - [Experimental Planning](skills/research/experimental-planning/SKILL.md)
 - [Literature Synthesizer](skills/research/literature-synthesizer/SKILL.md)
+- [Reproducibility Audit](skills/research/reproducibility-audit/SKILL.md)
 - [Research Question](skills/research/research-question/SKILL.md)
 - [Source Verification](skills/research/source-verification/SKILL.md)
 - [API Design](skills/web-development/api-design/SKILL.md)
