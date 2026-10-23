@@ -95,6 +95,7 @@ The repository includes lightweight validation for resource structure, skill met
 
 ```bash
 python scripts/validate_atlas.py
+python scripts/smoke_test_examples.py
 python -m unittest discover tests
 ```
 

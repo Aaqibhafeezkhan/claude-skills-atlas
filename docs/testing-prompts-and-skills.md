@@ -72,6 +72,14 @@ Don't paste full conversation logs into the PR unless they help. If you do inclu
 - **PR description:** put your test record under the **Testing** section of the [pull request template](../.github/PULL_REQUEST_TEMPLATE.md).
 - **The resource itself:** if you found a limitation that future users should know about, add a short line to its **Limitations** or **Notes** section.
 
+## Automated smoke checks
+
+Run the repository's static smoke checks before opening a pull request:
+
+`python scripts/smoke_test_examples.py`
+
+The command checks local Markdown links, parses complete Python and JSON examples, and checks shell syntax without running shell commands. Each failure identifies the source file and fenced example number. Examples with placeholders, unsupported executable languages, or external/destructive shell commands are marked for manual verification instead of being executed. These checks are intentionally static and do not prove that an example behaves correctly against a live service.
+
 ## Quick checklist
 
 Before opening your PR:
