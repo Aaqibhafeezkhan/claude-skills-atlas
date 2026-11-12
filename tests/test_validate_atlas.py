@@ -42,7 +42,7 @@ class TestValidateAtlas(unittest.TestCase):
             "# Doc 1\n\nLink to [doc2](doc2.md#section-2) and [itself](#doc-1).",
             encoding="utf-8",
         )
-        (self.root / "doc2.md").write_text("# Doc 2\n\n## Café", encoding="utf-8")
+        (self.root / "doc2.md").write_text("# Doc 2\n\n## Section 2", encoding="utf-8")
         self.assertEqual(validate_catalog(self.root), [])
 
     def test_missing_file(self):
