@@ -4,6 +4,7 @@ category: biology
 tags: [biology, research, literature-analysis]
 ---
 
+
 # Biology Paper Analysis Skill
 
 ## Purpose
@@ -40,3 +41,9 @@ Use when a user wants to understand a paper's question, methods, results, limita
 ## Limitations
 
 This skill does not replace expert scientific review and should not be used to invent experimental details or medical advice.
+
+## Example
+
+**Scenario:** A user requests help with biology paper analysis skill and supplies the relevant context.
+
+**Expected result:** Apply the guidance above, show the task-relevant result, and distinguish verified information from assumptions or open questions.

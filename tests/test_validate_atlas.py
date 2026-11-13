@@ -1,4 +1,5 @@
 ﻿import tempfile
+import shutil
 import unittest
 from pathlib import Path
 import sys
@@ -20,12 +21,28 @@ class TestValidateAtlas(unittest.TestCase):
     def tearDown(self):
         self.temp_dir.cleanup()
 
+    def test_web_development_skills_follow_required_structure(self):
+        repository_root = Path(__file__).resolve().parents[1]
+        for skill_name in ("api-design", "frontend-planning"):
+            source = (
+                repository_root
+                / "skills"
+                / "web-development"
+                / skill_name
+                / "SKILL.md"
+            )
+            skill = self.root / "skills" / "web-development" / skill_name
+            skill.mkdir(parents=True)
+            shutil.copyfile(source, skill / "SKILL.md")
+
+        self.assertEqual(validate_catalog(self.root), [])
+
     def test_valid_links_and_anchors(self):
         (self.root / "doc1.md").write_text(
             "# Doc 1\n\nLink to [doc2](doc2.md#section-2) and [itself](#doc-1).",
             encoding="utf-8",
         )
-        (self.root / "doc2.md").write_text("# Doc 2\n\n## Café", encoding="utf-8")
+        (self.root / "doc2.md").write_text("# Doc 2\n\n## Section 2", encoding="utf-8")
         self.assertEqual(validate_catalog(self.root), [])
 
     def test_missing_file(self):
